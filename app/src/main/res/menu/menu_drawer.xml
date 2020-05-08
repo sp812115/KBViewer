@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/group_01" android:checkableBehavior="single">
+    <item
+        android:id="@+id/navigation_item_mylist"
+        android:icon="@drawable/icon_drawer_mylist"
+        android:title="我的列表" /><!--        android:icon="@drawable/iconfont_home"-->
+    <item
+        android:id="@+id/navigation_item_history"
+        android:icon="@drawable/icon_drawer_history"
+        android:title="浏览历史" />
+    <item
+        android:id="@+id/navigation_item_schedule"
+        android:icon="@drawable/icon_drawer_schedule"
+        android:title="番剧时间表" />
+    <item
+        android:id="@+id/navigation_item_discovery"
+        android:icon="@drawable/icon_drawer_discovery"
+        android:title="发现" />
+
+    </group>
+    <group android:id="@+id/group_02" android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_settings"
+            android:icon="@drawable/icon_drawer_settings"
+            android:title="设置" />
+
+        <item
+            android:id="@+id/navigation_item_about"
+            android:icon="@drawable/icon_drawer_about"
+            android:title="关于" />
+
+    </group>
+</menu>

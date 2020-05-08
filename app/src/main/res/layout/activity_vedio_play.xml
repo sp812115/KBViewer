@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".app.VideoPlayActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+            android:id="@+id/vedio_player"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/post_media_height">
+
+        </com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_episodes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/vedio_player"
+            android:layout_marginTop="10dp" />
+
+    </RelativeLayout>
+
+</FrameLayout>
