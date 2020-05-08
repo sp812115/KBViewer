@@ -1,3 +1,5 @@
 # KBViewer
 
-my android learning app
+My android learning app
+
+Try to use Chaquopy to develop a android project with python
