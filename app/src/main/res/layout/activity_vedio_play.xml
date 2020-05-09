@@ -17,12 +17,34 @@
 
         </com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer>
 
+        <LinearLayout
+            android:id="@+id/divider_list"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_below="@id/vedio_player"
+            android:background="@android:color/background_light"
+            android:elevation="1dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="播放列表"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_episodes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/vedio_player"
-            android:layout_marginTop="10dp" />
+            android:layout_height="match_parent"
+            android:layout_below="@id/divider_list"
+            android:layout_marginTop="1dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
 
     </RelativeLayout>
 

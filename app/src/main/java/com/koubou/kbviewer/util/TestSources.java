@@ -2,6 +2,7 @@ package com.koubou.kbviewer.util;
 
 import com.koubou.kbviewer.entity.Episode;
 import com.koubou.kbviewer.entity.Video;
+import com.koubou.kbviewer.entity.VideoSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,8 @@ public class TestSources {
     List<Video> videos =new ArrayList<>();
 
     List <Episode> episodes=new ArrayList<>();
+
+    List <VideoSource> videoSources=new ArrayList<>();
 
     public TestSources() {
         Video video1 =new Video("Re：从零开始的异世界生活 新编集版"
@@ -28,6 +31,24 @@ public class TestSources {
                 ,"http://www.yhdm.tv/show/4788.html"
                 ,"《转生恶役只好拔除破灭旗标》电视动画《转生成为了只有乙女游戏破灭 Flag 的邪恶大小姐》改编自山口悟著作，ひだかなみ负责插画的同名轻小说，于2018年10月19日宣布了动画化企划进行中的消息。 动画由SILVER LINK 负责动画制作，于2020年4月开始播出。 公爵千金卡塔莉娜·克拉艾斯在脑袋撞到石头上时取回了前世的记忆，发现这里是前世所迷恋的乙女游戏《FORTUNE LOVER》的世界，自己成为了妨碍游戏主人公恋情的邪恶大小姐！ 在游戏里，克拉艾斯被准备的好的结局是流放国外，最差的是被杀死。无论如何都要回避这个破灭Flag，一定要取得幸福的未来给你看！！ 没错吧？万人迷的爱情喜剧拉开了帷幕。");
 
+        videos.add(video1);
+        videos.add(video2);
+        videos.add(video3);
+        videos.add(video1);
+        videos.add(video2);
+        videos.add(video3);
+        videos.add(video1);
+        videos.add(video2);
+        videos.add(video3);
+        videos.add(video1);
+        videos.add(video2);
+        videos.add(video3);
+        videos.add(video1);
+        videos.add(video2);
+        videos.add(video3);
+        videos.add(video1);
+        videos.add(video2);
+        videos.add(video3);
         videos.add(video1);
         videos.add(video2);
         videos.add(video3);
@@ -53,6 +74,13 @@ public class TestSources {
         episodes.add(episode4);
         episodes.add(episode5);
 
+
+        VideoSource videoSource01=new VideoSource("樱花动漫","1.0","动漫网站");
+        VideoSource videoSource02=new VideoSource("ZZZ动漫","1.0.1","ZZZ网站");
+
+        videoSources.add(videoSource01);
+        videoSources.add(videoSource02);
+
     }
 
     public List<Video> getVideos(){
@@ -60,4 +88,8 @@ public class TestSources {
     }
 
     public List<Episode> getEpisodes(){return episodes;}
+
+    public List<VideoSource> getVideoSources(){
+        return videoSources;
+    }
 }

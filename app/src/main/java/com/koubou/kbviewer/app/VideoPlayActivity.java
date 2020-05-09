@@ -3,24 +3,21 @@ package com.koubou.kbviewer.app;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
 
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.koubou.kbviewer.R;
 import com.koubou.kbviewer.entity.Episode;
-import com.koubou.kbviewer.entity.Video;
 import com.koubou.kbviewer.util.TestSources;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
@@ -34,31 +31,34 @@ import java.util.List;
 public class VideoPlayActivity extends AppCompatActivity {
 
     TestSources sources;
-
-    RecyclerView recyclerview_episodes;
-
-    GSYVideoHelper gsyVideoHelper;
-    GSYVideoHelper.GSYVideoHelperBuilder gsyVideoHelperBuilder;
-
     List<Episode> episodes=new ArrayList<>();
 
-    StandardGSYVideoPlayer videoPlayer;
+    //Recyclerview
+    RecyclerView recyclerview_episodes;
+    BaseQuickAdapter episodesAdapter;
 
+    //videoplayer
+    GSYVideoHelper gsyVideoHelper;
+    GSYVideoHelper.GSYVideoHelperBuilder gsyVideoHelperBuilder;
+    StandardGSYVideoPlayer videoPlayer;
     OrientationUtils orientationUtils;
+
+    //记录当前播放index和播放列表选择的episodeitem(tv_title)
+    int episodeIndex=0;
+    TextView tv_title_playing=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vedio_play);
         initPlayer();
+        initRecyclerview();
 
-        sources=new TestSources();
-        episodes=sources.getEpisodes();
-
-        initEpisodesList();
-
-        playVedioEpisode(episodes.get(0));
+        //写法存疑
+        initData();
+        initEpisodelist();
     }
+
 
 
 
@@ -110,28 +110,69 @@ public class VideoPlayActivity extends AppCompatActivity {
 
     }
 
-    private void initEpisodesList(){
+    private void initRecyclerview(){
         recyclerview_episodes=(RecyclerView)findViewById(R.id.recyclerview_episodes) ;
-        LinearLayoutManager manager=new LinearLayoutManager(VideoPlayActivity.this,RecyclerView.HORIZONTAL,false);
+        LinearLayoutManager manager=new LinearLayoutManager(VideoPlayActivity.this,RecyclerView.VERTICAL,false);
         recyclerview_episodes.setLayoutManager(manager);
-        recyclerview_episodes.setAdapter(new BaseQuickAdapter<Episode, BaseViewHolder>(R.layout.item_episode, sources.getEpisodes()){
+        episodesAdapter=new BaseQuickAdapter<Episode, BaseViewHolder>(R.layout.item_episode, episodes){
             @Override
             protected void convert(BaseViewHolder helper, Episode item) {
+                TextView tv_title=(TextView)helper.getView(R.id.tv_title);
                 helper.setText(R.id.tv_title,item.getTitle());
-                helper.itemView.setOnClickListener(new View.OnClickListener() {
+                tv_title.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         playVedioEpisode(item);
+                        episodeIndex=helper.getAdapterPosition();
+
+                        if(tv_title_playing!=null){
+                            tv_title_playing.setFocusable(false);
+                            tv_title_playing.setFocusableInTouchMode(false);
+                        }
+                        tv_title_playing=tv_title;
+                        tv_title_playing.setFocusable(true);
+                        tv_title_playing.setFocusableInTouchMode(true);
+                        tv_title_playing.requestFocus();
+
                     }
                 });
             }
 
-        });
 
+
+        };
+        recyclerview_episodes.setAdapter(episodesAdapter);
     }
 
+    void initData(){
+        sources=new TestSources();
+        episodes.clear();
+        episodes.addAll(sources.getEpisodes());
+        episodesAdapter.notifyDataSetChanged();
+    }
+
+    void initEpisodelist(){
+        String vediosource = episodes.get(episodeIndex).getUrl();
+        String title=episodes.get(episodeIndex).getTitle();
+        videoPlayer.setUp(vediosource, true, title);
+        recyclerview_episodes.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver
+                .OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                TextView tv_title =   recyclerview_episodes.getLayoutManager().findViewByPosition(episodeIndex).findViewById(R.id.tv_title);
+                tv_title_playing=tv_title;
+                tv_title_playing.setFocusable(true);
+                tv_title_playing.setFocusableInTouchMode(true);
+                tv_title_playing.requestFocus();
+                //OnGlobalLayoutListener可能会被多次触发
+                //所以完成了需求后需要移除OnGlobalLayoutListener
+                recyclerview_episodes.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+    }
 
     private void playVedioEpisode(Episode episode){
+        videoPlayer.onVideoPause();
         String vediosource = episode.getUrl();
         String title=episode.getTitle();
         videoPlayer.setUp(vediosource, true, title);
@@ -153,10 +194,11 @@ public class VideoPlayActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+
         GSYVideoManager.releaseAllVideos();
         if (orientationUtils != null)
             orientationUtils.releaseListener();
+        super.onDestroy();
     }
 
     @Override

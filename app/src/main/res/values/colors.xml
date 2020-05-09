@@ -3,4 +3,10 @@
     <color name="colorPrimary">#648AD1</color>
     <color name="colorPrimaryDark">#5576B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="sakura">#e5b7c9</color>
+    <color name="transparent">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="super_light_grey">#dadada</color>
 </resources>

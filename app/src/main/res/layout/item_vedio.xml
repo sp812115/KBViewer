@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/colorBackground"
-    android:padding="5dp">
+    android:layout_margin="5dp"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="2dp"
+    app:cardMaxElevation="2dp">
 
-    <androidx.cardview.widget.CardView
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="2dp"
-        app:cardMaxElevation="2dp"
-        app:cardUseCompatPadding="true">
+        android:elevation="2dp">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/iv_cover"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="200dp"
+            app:srcCompat="@android:color/darker_gray" />
 
-            <ImageView
-                android:id="@+id/iv_cover"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:srcCompat="@android:color/darker_gray" />
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_alignBottom="@id/iv_cover"
-                android:background="@drawable/bg_text_black_crossfade"
-                android:gravity="bottom"
-                android:paddingBottom="8dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="TextView"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_alignBottom="@id/iv_cover"
+            android:background="@drawable/bg_text_black_crossfade"
+            android:ellipsize="end"
+            android:gravity="bottom"
+            android:maxLines="2"
+            android:paddingBottom="6dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="TextView"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
 
-</RelativeLayout>
+</androidx.cardview.widget.CardView>

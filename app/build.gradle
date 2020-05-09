@@ -73,6 +73,6 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:4.1.0'
     implementation 'jp.co.cyberagent.android:gpuimage:2.0.4'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.3'
-
+    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 
 }

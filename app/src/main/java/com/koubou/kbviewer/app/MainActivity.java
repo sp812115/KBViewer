@@ -2,6 +2,7 @@ package com.koubou.kbviewer.app;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -20,9 +21,10 @@ import com.koubou.kbviewer.R;
 public class MainActivity extends AppCompatActivity {
 
 
-    FrameLayout fragments_container;
+    CoordinatorLayout fragments_container;
     Fragment mylistFragment;
     Fragment historyFragment;
+    Fragment videosourceFragment;
 
     NavigationView mNavigationView;
 
@@ -36,11 +38,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initDrawLayoutNav();
-        initFragments();
         initDrawLayoutNavItemsClick();
 
+        mylistFragment=new MyListFragment(toolbar_main);
         switchFragment(mylistFragment);
-
+        mNavigationView.setCheckedItem(R.id.navigation_item_mylist);
     }
 
 
@@ -59,10 +61,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    void initFragments(){
-        mylistFragment=new MyListFragment(toolbar_main);
-        historyFragment=new HistoryFragment(toolbar_main);
-    }
+
 
     void initDrawLayoutNavItemsClick(){
         mNavigationView=(NavigationView)findViewById(R.id.navigation_view);
@@ -72,10 +71,19 @@ public class MainActivity extends AppCompatActivity {
                 //在这里处理item的点击事件
                 switch (item.getItemId()){
                     case R.id.navigation_item_mylist:
+                        if(mylistFragment==null)
+                            mylistFragment=new MyListFragment(toolbar_main);
                         switchFragment(mylistFragment);
                         break;
                     case R.id.navigation_item_history:
+                        if(historyFragment==null)
+                            historyFragment=new HistoryFragment(toolbar_main);
                         switchFragment(historyFragment);
+                        break;
+                    case R.id.navigation_item_videosource:
+                        if(videosourceFragment==null)
+                            videosourceFragment=new VideoSourceFragment(toolbar_main);
+                        switchFragment(videosourceFragment);
                         break;
                 }
                 drawlayout_main.closeDrawers();

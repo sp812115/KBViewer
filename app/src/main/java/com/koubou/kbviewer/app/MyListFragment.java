@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,8 @@ import com.koubou.kbviewer.util.TestSources;
 import com.koubou.kbviewer.util.dpTansferUtil;
 
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.bumptech.glide.load.DecodeFormat.PREFER_ARGB_8888;
 
@@ -44,8 +47,11 @@ public class MyListFragment extends Fragment {
     Toolbar toolbar_main;
 
     RecyclerView mRecyclerview;
+    BaseQuickAdapter videosAdapter;
+    SwipeRefreshLayout swipe_container;
 
     TestSources sources;
+    List<Video> videos=new ArrayList<>();
 
     public MyListFragment(Toolbar toolbar) {
         // Required empty public constructor
@@ -63,24 +69,27 @@ public class MyListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         initToolbar();
-        init();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initRecyclerview();
+        initSwipeRefreshLayout();
+
+        initData();
     }
 
     void initToolbar(){
         toolbar_main.setTitle("我的列表");
     }
 
-    void init(){
+    void initRecyclerview(){
         mRecyclerview=(RecyclerView) getActivity().findViewById(R.id.recyclerview_container);
-        sources=new TestSources();
-
         GridLayoutManager manager = new GridLayoutManager(getActivity(),2);
-
         mRecyclerview.setLayoutManager(manager);
-        mRecyclerview.setAdapter(new BaseQuickAdapter<Video, BaseViewHolder>(R.layout.item_vedio, sources.getVideos()) {
+        videosAdapter=new BaseQuickAdapter<Video, BaseViewHolder>(R.layout.item_vedio, videos) {
             @Override
             protected void convert(BaseViewHolder helper, Video item) {
                 helper.setText(R.id.tv_title, item.getTitle());
@@ -112,7 +121,7 @@ public class MyListFragment extends Fragment {
                                 })
                                 .centerCrop()
                                 .format(PREFER_ARGB_8888))
-                                //.bitmapTransform())
+                        //.bitmapTransform())
                         .transition(DrawableTransitionOptions.with(drawableCrossFadeFactory))
                         .into((ImageView) helper.getView(R.id.iv_cover));
 
@@ -127,12 +136,40 @@ public class MyListFragment extends Fragment {
                 });
             }
 
+        };
+        mRecyclerview.setAdapter(videosAdapter);
+    }
 
+    void initData(){
+        sources=new TestSources();
+        videos.clear();
+        videos.addAll(sources.getVideos());
+        videosAdapter.notifyDataSetChanged();
+    }
 
+    void initSwipeRefreshLayout(){
+        swipe_container=(SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_container);
+        swipe_container.setColorSchemeResources(R.color.sakura,R.color.sakura);
 
+        swipe_container.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //这里获取数据的逻辑
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                            swipe_container.setRefreshing(false);
+                        }catch (Exception e){
+
+                        }
+                    }
+                }
+
+                ).start();
+
+            }
         });
-
-
-
     }
 }
