@@ -70,16 +70,12 @@ public class MyListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         initRecyclerview();
         initSwipeRefreshLayout();
 
         initData();
     }
+
 
     void initToolbar(){
         toolbar_main.setTitle("我的列表");

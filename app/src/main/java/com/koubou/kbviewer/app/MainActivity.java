@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         initDrawLayoutNav();
         initDrawLayoutNavItemsClick();
 
-        mylistFragment=new MyListFragment(toolbar_main);
-        switchFragment(mylistFragment);
+
+        switchFragment(new MyListFragment(toolbar_main));
         mNavigationView.setCheckedItem(R.id.navigation_item_mylist);
     }
 
@@ -71,19 +71,13 @@ public class MainActivity extends AppCompatActivity {
                 //在这里处理item的点击事件
                 switch (item.getItemId()){
                     case R.id.navigation_item_mylist:
-                        if(mylistFragment==null)
-                            mylistFragment=new MyListFragment(toolbar_main);
-                        switchFragment(mylistFragment);
+                        switchFragment(new MyListFragment(toolbar_main));
                         break;
                     case R.id.navigation_item_history:
-                        if(historyFragment==null)
-                            historyFragment=new HistoryFragment(toolbar_main);
-                        switchFragment(historyFragment);
+                        switchFragment(new HistoryFragment(toolbar_main));
                         break;
                     case R.id.navigation_item_videosource:
-                        if(videosourceFragment==null)
-                            videosourceFragment=new VideoSourceFragment(toolbar_main);
-                        switchFragment(videosourceFragment);
+                        switchFragment(new HistoryFragment(toolbar_main));
                         break;
                 }
                 drawlayout_main.closeDrawers();
