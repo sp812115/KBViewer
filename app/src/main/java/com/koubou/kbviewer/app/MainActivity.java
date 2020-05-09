@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         switchFragment(new HistoryFragment(toolbar_main));
                         break;
                     case R.id.navigation_item_videosource:
-                        switchFragment(new HistoryFragment(toolbar_main));
+                        switchFragment(new VideoSourceFragment(toolbar_main));
                         break;
                 }
                 drawlayout_main.closeDrawers();
